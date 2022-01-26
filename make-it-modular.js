@@ -1,25 +1,12 @@
-var path = require('path');
-var fs = require('fs');
+var filterFn = require('./mymodule.js')
+var dir = process.argv[2]
+var filterStr = process.argv[3]
 
-module.exports = function(pathFile, ext, callback){
-    ext = '.' + ext;
+filterFn(dir, filterStr, function (err, list) {
+  if (err)
+    return console.error('There was an error:', err)
 
-    fs.readdir(pathFile, function(err, list){
-        if (err){
-            return callback(err);
-        }
-
-        var filtered=[];
-        list.forEach(function(file){
-            if(path.extname(file) === ext){
-                filtered.push(file);
-            }
-        });
-        return callback(null, filtered);
-    })
-    moduleFile(process.argv[2], process.argv[3], function(err, data){
-        data.forEach(function(file){
-            console.log(file);
-        });
-    });
-};
+  list.forEach(function (file) {
+    console.log(file)
+  })
+})
